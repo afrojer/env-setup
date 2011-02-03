@@ -1,0 +1,8 @@
+How to install / use:
+
+git clone git://github.com/afrojer/env-setup.git ~/.env
+# depending on your system, you may want to make it .bashrc
+ln -s ~/.env/bash_profile ~/.bash_profile
+
+add custom files in ~/.env/bash.d/ - they are all sourced automagically for you.
+
