@@ -1,7 +1,11 @@
 
 alias s="cd .."
-alias ls="gls --color=auto"
 alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
 
+LS=`which gls`
+if [ -z "$LS" ]; then
+	LS=ls
+fi
+alias ls="$LS --color=auto"
