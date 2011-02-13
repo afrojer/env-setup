@@ -8,7 +8,7 @@ __fif() {
 		shift
 	fi
 
-	grep -ri "$PAT" $DIRS $@
+	find -E . -type f -print0 | xargs -0 grep --color -n "$PAT" $DIRS "$@"
 }
 
 # find-in-files: ignore warnings/errors
