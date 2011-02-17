@@ -3,17 +3,19 @@
 __fif() {
 	local PAT=$1
 	shift
-	local DIRS=${1:-*}
-	if [ "x$DIRS" != "x*" ]; then
-		shift
-	fi
 
-	find -E . -type f -print0 | xargs -0 grep --color -n "$PAT" $DIRS "$@"
+	local DIR=${1:-.}
+	shift
+	until [ -z "$DIR" ]; do
+		find -E "${DIR}" -type f -print0 | xargs -0 grep --color -n "$PAT"
+		DIR=$1
+		shift
+	done
 }
 
 # find-in-files: ignore warnings/errors
 fif() {
-	__fif "${1/ /\\ }" ${2:-*} 2>/dev/null
+	__fif "${1/ /\\ }" $@ 2>/dev/null
 }
 
 # Find a file in the current, or specified directory
