@@ -21,9 +21,12 @@ fi
 
 # user config after global
 if [ -d "$ENV_ROOT_EXTRA" ]; then
-	for d in "$ENV_ROOT_EXTRA/"*; do
-		. "$d"
-	done
+	_T=$(ls "$ENV_ROOT_EXTRA")
+	if [ ! -z "$_T" ]; then
+		for d in "$ENV_ROOT_EXTRA/"*; do
+			. "$d"
+		done
+	fi
 fi
 
 #
