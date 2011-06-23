@@ -4,7 +4,9 @@ DIRCOLORS=`which dircolors`
 if [ -z "$DIRCOLORS" ]; then
 	DIRCOLORS=`which gdircolors`
 fi
-[[ -r "$ENV_ROOT/gdircolors" ]]; eval $($DIRCOLORS -b "$ENV_ROOT/gdircolors")
+if [ ! -z "$DIRCOLORS" ]; then
+	[[ -r "$ENV_ROOT/gdircolors" ]]; eval $($DIRCOLORS -b "$ENV_ROOT/gdircolors")
+fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in

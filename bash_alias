@@ -5,7 +5,7 @@ alias mv="mv -i"
 alias cp="cp -i"
 
 LS=`which gls`
-if [ -z "$LS" ]; then
-	LS=ls
+if [ ! -z "$LS" ]; then
+	alias ls="$LS --color=auto"
 fi
-alias ls="$LS --color=auto"
+
