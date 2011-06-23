@@ -20,9 +20,14 @@ if [ -d "$ENV_ROOT/bash.d" ]; then
 fi
 
 # user config after global
+re_ignore="^\."
 if [ -d "$ENV_ROOT_EXTRA" ]; then
 	for d in "$ENV_ROOT_EXTRA/"*; do
-		. "$d"
+		if [[ "$d" =~ $re_ignore ]]; then
+			echo "ignoring env setup file '$d'" > /dev/null
+		else
+			. "$d"
+		fi
 	done
 fi
 
