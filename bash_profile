@@ -22,13 +22,16 @@ fi
 # user config after global
 re_ignore="^\."
 if [ -d "$ENV_ROOT_EXTRA" ]; then
-	for d in "$ENV_ROOT_EXTRA/"*; do
-		if [[ "$d" =~ $re_ignore ]]; then
-			echo "ignoring env setup file '$d'" > /dev/null
-		else
-			. "$d"
-		fi
-	done
+	_T=$(ls "$ENV_ROOT_EXTRA")
+	if [ ! -z "$_T" ]; then
+		for d in "$ENV_ROOT_EXTRA/"*; do
+			if [[ "$d" =~ $re_ignore ]]; then
+				echo "ignoring env setup file '$d'" > /dev/null
+			else
+				. "$d"
+			fi
+		done
+	fi
 fi
 
 #
