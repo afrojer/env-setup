@@ -1,4 +1,38 @@
 
+# find-functions-in-files implementation
+# (incomplete...)
+__ffif() {
+	local MAX_ARGS=10
+	local GREP_ARGS=
+	if [ "$1" = "-ga" ]; then
+		GREP_ARGS=$1
+		shift
+	fi
+
+	local FCN=$1
+	local NARGS=$2
+	shift
+	shift
+
+	if [ $NARGS -lt 1 -o $NARGS -gt $MAX_ARGS ]; then
+		echo "ffif: too many arguments ($MAX_ARGS max)"
+		return
+	fi
+	local N=
+	let N=NARGS-1
+	local argregex='\([^,]\+,\)\{'${N}'\}[^,]\+'
+
+	local DIR=${1:-.}
+	shift
+
+	until [ -z "$DIR" ]; do
+		echo -e "Searching for \033[1;32m$argregex\033[0m in \033[0;33m${DIR}\033[0m"
+		find "${DIR}" -type f -print0 | xargs -0 -E '\0' cat | grep $GREP_ARGS -z -n "${FCN}(${argregex}" | grep --color -n "${FCN}"
+		DIR=$1
+		shift
+	done
+}
+
 # find-in-files implementation
 __fif() {
 	local GREP_ARGS=
