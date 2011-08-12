@@ -13,8 +13,10 @@ if [ -z "$h" -o "$h" = "~/" ]; then
 	exit
 fi
 
-eval mydir_=`dirname $(which $(test -L $0 && readlink $0 || echo $0))`
-mydir=$(echo $mydir_ | sed "s#^\./*#`pwd`/#; s#^\.\./#`pwd`/../#; s#[^/]*/\.\./##")
+#eval mydir_=`dirname $(which $(test -L $0 && readlink $0 || echo $0))`
+#mydir=$(echo $mydir_ | sed "s#^\./*#`pwd`/#; s#^\.\./#`pwd`/../#; s#[^/]*/\.\./##")
+# this is _much_ cleaner...
+mydir="$(cd "$(dirname $0)" && pwd)"
 
 mydir=${mydir%/}
 h=${h%/}
