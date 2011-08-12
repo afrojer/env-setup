@@ -16,9 +16,18 @@ fi
 #eval mydir_=`dirname $(which $(test -L $0 && readlink $0 || echo $0))`
 #mydir=$(echo $mydir_ | sed "s#^\./*#`pwd`/#; s#^\.\./#`pwd`/../#; s#[^/]*/\.\./##")
 # this is _much_ cleaner...
-mydir="$(cd "$(dirname $0)" && pwd)"
+#mydir="$(cd "$(dirname $0)" && pwd)"
+# but this is much more _stable_
+eval SCRIPT_PATH="${BASH_SOURCE[0]}";
+if ([ -h "${SCRIPT_PATH}" ]) then
+	while([ -h "${SCRIPT_PATH}" ]) do SCRIPT_PATH=`readlink "${SCRIPT_PATH}"`; done
+fi
+pushd . > /dev/null
+cd `dirname ${SCRIPT_PATH}` > /dev/null
+SCRIPT_PATH=`pwd`;
+popd  > /dev/null
 
-mydir=${mydir%/}
+mydir=${SCRIPT_PATH%/}
 h=${h%/}
 
 echo "Installing environment in $mydir into $h"
