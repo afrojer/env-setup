@@ -1,8 +1,8 @@
 # Create LS_COLORS environment variable from .dircolors
 #
-DIRCOLORS=`which dircolors`
+DIRCOLORS=`which dircolors 2>/dev/null`
 if [ -z "$DIRCOLORS" ]; then
-	DIRCOLORS=`which gdircolors`
+	DIRCOLORS=`which gdircolors 2>/dev/null`
 fi
 if [ ! -z "$DIRCOLORS" ]; then
 	[[ -r "$ENV_ROOT/gdircolors" ]]; eval $($DIRCOLORS -b "$ENV_ROOT/gdircolors")

@@ -4,9 +4,9 @@ alias rm="rm -i"
 alias mv="mv -i"
 alias cp="cp -i"
 
-LS=`which gls`
+LS=`which gls 2>/dev/null`
 if [ -z "$LS" ]; then
-	LS=`which ls`
+	LS=`which ls 2>/dev/null`
 fi
 LS_isgnu=`$LS --version 2>/dev/null | grep GNU`
 if [ ! -z "$LS_isgnu" ]; then
