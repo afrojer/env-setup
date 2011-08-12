@@ -4,7 +4,7 @@
 # You can probably copy the following lines into: ~/.env-setup
 # #!/bin/sh
 # export ENV_ROOT=~/.env
-# export ENV_ROOT_EXTRA=~/.bashrc.d
+# export ENV_ROOT_EXTRA=~/.env.d
 
 . ~/.env-setup
 

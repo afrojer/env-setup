@@ -2,17 +2,23 @@ How to install / use:
 
 1. git clone git://github.com/afrojer/env-setup.git ~/.env
 
+2. ~/.env/setup.sh
+
+3. Enjoy!
+
+---------- OR (for the more manual-mined) ----------
+
+1. git clone git://github.com/afrojer/env-setup.git ~/.env
+
 2. ln -s ~/.env/bash_profile ~/.bashrc
    (depending on your system, you may want to make it .bash_profile)
 
 3. add the following lines to "~/.env-setup":
    export ENV_ROOT=~/.env
-   export ENV_ROOT_EXTRA=~/.bashrc.d
+   export ENV_ROOT_EXTRA=~/.env.d
 
-4. Now you can add files to ~/.bashrc.d and they will automagically
+4. Now you can add files to ~/.env.d and they will automagically
    get sourced into your environment at login.
 
-Enjoy,
-
-        -Jeremy
+5. Enjoy!
 
