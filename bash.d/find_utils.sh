@@ -58,21 +58,27 @@ __fif() {
 
 # find-in-files: ignore warnings/errors
 fif() {
+	local GA=
 	local PAT=${1/ /\\ }
 	shift
+	while [[ "$PAT" = "-ga" ]]; do
+		GA="$GA $1"
+		shift
+		PAT=${1/ /\\ }
+		shift
+	done
+
 	if [ "$PAT" = "-h" ]; then
-		echo "usage: fif [-ga] {pattern} [directory]"
+		echo "usage: fif [-ga options] {pattern} [directory]"
 		echo "        -ga [options]    : 'options' are passed directly to grep"
 		echo "        {pattern}        : simple pattern or POSIX regex (grep style"
 		echo "        [directory]      : directory to search (defaults to ./)"
 		echo ""
 		return
-	elif [ "$PAT" = "-ga" ]; then
-		local GA=$1
-		shift
-		PAT=${1/ /\\ }
-		shift
-		__fif -ga $GA "$PAT" $@ 2>/dev/null
+	fi
+
+	if [ ! -z "$GA" ]; then
+		__fif -ga "$GA" "$PAT" $@ 2>/dev/null
 	else
 		__fif "$PAT" $@ 2>/dev/null
 	fi
@@ -80,10 +86,21 @@ fif() {
 
 # Find a file in the current, or specified directory
 ff() {
-	FNAME=$1
-	if [ -z "$FNAME" -o "$FNAME" = "-h" ]; then
-		echo "usage: ff [name_of_file] {dir}"
-	else
-		find ${2:-.} -type f -name ${FNAME}
+	local find_args=
+	local fname=$1
+	shift
+
+	while [[ "$fname" = "-fa" ]]; do
+		find_args="${find_args} $1"
+		shift
+		fname=$1
+		shift
+	done
+
+	if [ -z "$fname" -o "$fname" = "-h" ]; then
+		echo "usage: ff {-fa find-arg {-fa other-find-arg} ...} [name_of_file] {dir}"
+		return
 	fi
+	
+	find ${1:-.} -type f -name ${fname} ${find_args}
 }
