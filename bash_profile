@@ -7,33 +7,6 @@
 # export ENV_ROOT_EXTRA=~/.env.d
 
 . ~/.env-setup
-
-# aliases are here
-. "$ENV_ROOT/bash_alias"
-
-# Run a bunch of scripts in a directory
-# (distributed setup)_
-if [ -d "$ENV_ROOT/bash.d" ]; then
-	for d in "$ENV_ROOT/bash.d/"*; do
-		. "$d"
-	done
-fi
-
-# user config after global
-re_ignore="^\."
-if [ -d "$ENV_ROOT_EXTRA" ]; then
-	_T=$(ls "$ENV_ROOT_EXTRA")
-	if [ ! -z "$_T" ]; then
-		for d in "$ENV_ROOT_EXTRA/"*; do
-			if [[ "$d" =~ $re_ignore ]]; then
-				echo "ignoring env setup file '$d'" > /dev/null
-			else
-				. "$d"
-			fi
-		done
-	fi
-fi
-
 #
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -60,4 +33,28 @@ shopt -s checkwinsize
 EXTRA_PATH="/opt/local/bin:/opt/local/sbin"
 
 export PATH="$HOME/bin:$EXTRA_PATH:$PATH"
+
+# Run a bunch of scripts in a directory
+# (distributed setup)
+if [ -d "$ENV_ROOT/bash.d" ]; then
+	for d in "$ENV_ROOT/bash.d/"*; do
+		. "$d"
+	done
+fi
+
+# aliases are here
+. "$ENV_ROOT/bash_alias"
+
+# user config after global
+re_ignore="^\."
+if [ -d "$ENV_ROOT_EXTRA" ]; then
+	_T=$(ls "$ENV_ROOT_EXTRA")
+	if [ ! -z "$_T" ]; then
+		for d in "$ENV_ROOT_EXTRA/"*; do
+			if [[ ! "$d" =~ $re_ignore ]]; then
+				. "$d"
+			fi
+		done
+	fi
+fi
 
