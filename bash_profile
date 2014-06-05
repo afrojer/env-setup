@@ -7,9 +7,53 @@
 # export ENV_ROOT_EXTRA=~/.env.d
 
 . ~/.env-setup
-#
-# If not running interactively, don't do anything
-[ -z "$PS1" ] && return
+
+################################################################################
+# Custom prompt coloring
+################################################################################
+SHORT_HOST=`hostname | sed 's/\..*//'`
+if [[ "`uname`" == "Darwin" ]]; then
+	PS1='\[\033[01;32m\]\w\[\033[00m\]\$ '
+else
+	PS1='\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
+
+################################################################################
+# Custom PATH configuration
+################################################################################
+# Default MacPorts paths
+# EXTRA_PATH="/opt/local/bin:/opt/local/sbin"
+EXTRA_PATH="/usr/local/bin:/usr/local/sbin"
+# ~/bin
+EXTRA_PATH="${EXTRA_PATH}:${HOME}/bin"
+
+
+################################################################################
+# Git settings
+################################################################################
+export GIT_EDITOR=/usr/bin/vim
+export GIT_AUTHOR_NAME="Jeremy C. Andrus"
+export GIT_AUTHOR_EMAIL="jeremya@cs.columbia.edu"
+export GIT_COMMITTER_NAME="Jeremy C. Andrus"
+export GIT_COMMITTER_EMAIL="jeremya@cs.columbia.edu"
+
+################################################################################
+# kernel compilation settings
+################################################################################
+export MENUCONFIG_COLOR=blackbg
+
+################################################################################
+# KVM/ARM environment
+################################################################################
+#function kvmarm_env()
+#{
+#	export CROSS_COMPILE=arm-linux-gnueabi-
+#	export ARCH=arm
+#	export GIT_AUTHOR_NAME="Christoffer Dall"
+#	export GIT_AUTHOR_EMAIL="c.dall@virtualopensystems.com"
+#	export GIT_COMMITTER_NAME="Christoffer Dall"
+#	export GIT_COMMITTER_EMAIL="c.dall@virtualopensystems.com"
+#}
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
@@ -28,11 +72,6 @@ shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# Default MacPorts paths
-EXTRA_PATH="/opt/local/bin:/opt/local/sbin"
-
-export PATH="$HOME/bin:$EXTRA_PATH:$PATH"
 
 # Run a bunch of scripts in a directory
 # (distributed setup)
@@ -57,4 +96,6 @@ if [ -d "$ENV_ROOT_EXTRA" ]; then
 		done
 	fi
 fi
+
+export PATH="${EXTRA_PATH}:$PATH"
 
