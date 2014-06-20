@@ -50,10 +50,24 @@ __fif() {
 	shift
 
 	until [ -z "$DIR" ]; do
-		find "${DIR}" -type f -print0 | xargs -0 grep $GREP_ARGS --color -n "$PAT"
+		#find "${DIR}" -type f -print0 | xargs -0 grep $GREP_ARGS --color -n "$PAT"
+		# -S: follow symlinks
+		# -s: ignore non-existent/unreadable files
+		# -I: ignore binary files
+		# -n: output line numbers
+		grep -sInR --exclude-dir '.git' --color=always $GREP
 		DIR=$1
 		shift
 	done
+}
+
+__fif_usage() {
+	echo "usage: fif [grep-options] {pattern} [directory]"
+	echo "        [grep-options]   : 'options' are passed directly to grep"
+	echo "        {pattern}        : simple pattern or POSIX regex (grep style)"
+	echo "        [directory]      : directory to search (defaults to ./)"
+	echo ""
+	return
 }
 
 # find-in-files: ignore warnings/errors
@@ -61,21 +75,16 @@ fif() {
 	local GA=
 	local PAT=${1/ /\\ }
 	shift
-	while [[ "$PAT" = "-ga" ]]; do
+	while [[ "${PAT:0:1}" = "-" ]]; do
+		if [ "$PAT" = "-h" -o "$PAT" = "--help" ]; then
+			__fif_usage
+			return
+		fi
 		GA="$GA $1"
 		shift
 		PAT=${1/ /\\ }
 		shift
 	done
-
-	if [ "$PAT" = "-h" ]; then
-		echo "usage: fif [-ga options] {pattern} [directory]"
-		echo "        -ga [options]    : 'options' are passed directly to grep"
-		echo "        {pattern}        : simple pattern or POSIX regex (grep style"
-		echo "        [directory]      : directory to search (defaults to ./)"
-		echo ""
-		return
-	fi
 
 	if [ ! -z "$GA" ]; then
 		__fif -ga "$GA" "$PAT" $@ 2>/dev/null
