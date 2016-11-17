@@ -49,13 +49,16 @@ __fif() {
 	local DIR=${1:-.}
 	shift
 
+	echo "DIR:$DIR"
+	echo "GA:$GREP_ARGS"
+	echo "PAT:$PAT"
 	until [ -z "$DIR" ]; do
 		#find "${DIR}" -type f -print0 | xargs -0 grep $GREP_ARGS --color -n "$PAT"
 		# -S: follow symlinks
 		# -s: ignore non-existent/unreadable files
 		# -I: ignore binary files
 		# -n: output line numbers
-		grep -sInR --exclude-dir '.git' --color=always $GREP
+		grep -sInR --exclude-dir '.git' --color=always $GREP_ARGS $PAT $DIR
 		DIR=$1
 		shift
 	done
