@@ -33,9 +33,9 @@ EXTRA_PATH="${EXTRA_PATH}:${HOME}/bin"
 ################################################################################
 export GIT_EDITOR=/usr/bin/vim
 export GIT_AUTHOR_NAME="Jeremy C. Andrus"
-export GIT_AUTHOR_EMAIL="jeremya@cs.columbia.edu"
+export GIT_AUTHOR_EMAIL="jhcristian.andrus@gmail.com"
 export GIT_COMMITTER_NAME="Jeremy C. Andrus"
-export GIT_COMMITTER_EMAIL="jeremya@cs.columbia.edu"
+export GIT_COMMITTER_EMAIL="jchristian.andrus@gmail.com"
 
 ################################################################################
 # kernel compilation settings
