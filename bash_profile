@@ -31,7 +31,7 @@ EXTRA_PATH="${EXTRA_PATH}:${HOME}/bin"
 ################################################################################
 # Git settings
 ################################################################################
-export GIT_EDITOR=/usr/bin/vim
+export GIT_EDITOR=vim
 export GIT_AUTHOR_NAME="Jeremy C. Andrus"
 export GIT_AUTHOR_EMAIL="jhcristian.andrus@gmail.com"
 export GIT_COMMITTER_NAME="Jeremy C. Andrus"
